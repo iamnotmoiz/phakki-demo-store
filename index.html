@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phakki | Premium Wellness & Supplements UK</title>
+    <title>Pawvance | Premium Pet Vitamins & Supplements UK</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -39,7 +39,6 @@
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
 
-        /* Staggered entry for product cards */
         .product-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -47,8 +46,6 @@
         .product-card:hover {
             transform: translateY(-8px);
         }
-
-        [v-cloak] { display: none; }
 
         /* Smooth page transitions */
         .page-section {
@@ -59,6 +56,10 @@
             from { opacity: 0; filter: blur(4px); }
             to { opacity: 1; filter: blur(0); }
         }
+
+        .pet-gradient {
+            background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%);
+        }
     </style>
 </head>
 <body class="bg-[#FDFDFF] text-slate-900">
@@ -67,21 +68,22 @@
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-5">
         <div class="container mx-auto px-6 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
-                <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-200">P</div>
-                <span class="text-2xl font-bold tracking-tight text-slate-800">Phakki<span class="text-emerald-600">.</span></span>
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">
+                    <i data-lucide="paw-print" size="20"></i>
+                </div>
+                <span class="text-2xl font-bold tracking-tight text-slate-800">Pawvance<span class="text-blue-600">.</span></span>
             </div>
 
             <div class="hidden md:flex items-center gap-8">
-                <button onclick="showPage('home')" class="nav-link text-sm font-medium text-emerald-600">Home</button>
-                <button onclick="showPage('shop')" class="nav-link text-sm font-medium text-slate-600 hover:text-emerald-500">Shop</button>
-                <button onclick="showPage('about')" class="nav-link text-sm font-medium text-slate-600 hover:text-emerald-500">About</button>
+                <button onclick="showPage('home')" class="nav-link text-sm font-medium text-blue-600">Home</button>
+                <button onclick="showPage('shop')" class="nav-link text-sm font-medium text-slate-600 hover:text-blue-500">Shop Vitamins</button>
+                <button onclick="showPage('about')" class="nav-link text-sm font-medium text-slate-600 hover:text-blue-500">Our Science</button>
             </div>
 
             <div class="flex items-center gap-4">
-                <button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"><i data-lucide="search" size="20"></i></button>
                 <button onclick="showPage('cart')" class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors relative">
                     <i data-lucide="shopping-bag" size="20"></i>
-                    <span id="cart-count" class="hidden absolute top-0 right-0 w-4 h-4 bg-emerald-600 text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white">0</span>
+                    <span id="cart-count" class="hidden absolute top-0 right-0 w-4 h-4 bg-orange-500 text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white">0</span>
                 </button>
                 <button class="md:hidden p-2 text-slate-600" onclick="toggleMobileMenu()"><i data-lucide="menu" id="menu-icon"></i></button>
             </div>
@@ -89,8 +91,8 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 p-6 flex flex-col gap-4 shadow-xl">
             <button onclick="showPage('home')" class="text-lg font-medium text-slate-700 text-left">Home</button>
-            <button onclick="showPage('shop')" class="text-lg font-medium text-slate-700 text-left">Shop</button>
-            <button onclick="showPage('about')" class="text-lg font-medium text-slate-700 text-left">About</button>
+            <button onclick="showPage('shop')" class="text-lg font-medium text-slate-700 text-left">Shop Vitamins</button>
+            <button onclick="showPage('about')" class="text-lg font-medium text-slate-700 text-left">Our Science</button>
         </div>
     </nav>
 
@@ -98,41 +100,48 @@
     <div id="main-content">
         <!-- Home Section -->
         <section id="home-page" class="page-section">
-            <div class="relative min-h-[95vh] flex items-center pt-20 overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-blue-50">
-                <div class="absolute top-1/4 -right-20 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl"></div>
-                <div class="absolute bottom-1/4 -left-20 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+            <div class="relative min-h-[95vh] flex items-center pt-20 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-orange-50">
+                <div class="absolute top-1/4 -right-20 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-1/4 -left-20 w-96 h-96 bg-orange-200/30 rounded-full blur-3xl"></div>
                 
                 <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                     <div class="z-10 text-center md:text-left reveal active">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold tracking-widest uppercase mb-6">
-                            <i data-lucide="leaf" size="14"></i> Made in the UK
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold tracking-widest uppercase mb-6">
+                            <i data-lucide="heart" size="14"></i> Veterinarian Formulated
                         </div>
                         <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-6">
-                            Elevate Your <span class="text-emerald-600">Vitality</span> Every Day.
+                            More Years. <br/>More <span class="text-blue-600">Wags.</span>
                         </h1>
                         <p class="text-lg text-slate-600 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed">
-                            Phakki brings you premium dietary supplements crafted with pharmaceutical expertise. Science-backed nutrition for a healthier UK.
+                            Premium, UK-made supplements for dogs and cats. From joint support to calming chews, give your best friend the science-backed care they deserve.
                         </p>
                         <div class="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-                            <button onclick="showPage('shop')" class="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-200 transform hover:-translate-y-1">
-                                Shop Collection <i data-lucide="arrow-right" size="20"></i>
+                            <button onclick="showPage('shop')" class="px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-blue-700 transition-all shadow-xl shadow-blue-200 transform hover:-translate-y-1">
+                                Shop All Vitamins <i data-lucide="arrow-right" size="20"></i>
                             </button>
-                            <button class="px-8 py-4 bg-white text-slate-800 border border-slate-200 rounded-2xl font-bold hover:bg-slate-50 transition-all">
-                                Our Science
-                            </button>
+                            <div class="flex items-center gap-2 ml-4">
+                                <div class="flex text-yellow-400">
+                                    <i data-lucide="star" size="16" fill="currentColor"></i>
+                                    <i data-lucide="star" size="16" fill="currentColor"></i>
+                                    <i data-lucide="star" size="16" fill="currentColor"></i>
+                                    <i data-lucide="star" size="16" fill="currentColor"></i>
+                                    <i data-lucide="star" size="16" fill="currentColor"></i>
+                                </div>
+                                <span class="text-xs font-bold text-slate-500">Rated 4.9/5 by UK Pet Owners</span>
+                            </div>
                         </div>
                     </div>
                     <div class="relative reveal active reveal-delay-2">
-                        <div class="relative z-10 w-full aspect-square bg-white rounded-3xl shadow-2xl overflow-hidden group">
-                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200" alt="Wellness" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
-                            <div class="absolute bottom-6 left-6 right-6 p-4 bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30 text-white">
-                                <p class="font-semibold">Featured: Phakki Skincare Series</p>
-                                <p class="text-sm opacity-80">Boost your natural radiance from within.</p>
+                        <div class="relative z-10 w-full aspect-square bg-white rounded-3xl shadow-2xl overflow-hidden group pet-gradient flex items-center justify-center p-8">
+                            <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=800" alt="Happy Dog" class="w-full h-full object-cover rounded-2xl transform group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6 p-4 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 text-white">
+                                <p class="font-bold text-lg">Active Joint Complex</p>
+                                <p class="text-sm opacity-90">Glucosamine & Chondroitin for senior vitality.</p>
                             </div>
                         </div>
-                        <div class="absolute -top-6 -right-6 w-32 h-32 bg-yellow-400 rounded-full flex items-center justify-center text-center p-4 transform rotate-12 shadow-xl">
-                            <span class="font-black text-sm text-yellow-950">SAVE UP TO 35% TODAY</span>
+                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-orange-500 rounded-full flex items-center justify-center text-center p-4 transform -rotate-12 shadow-xl">
+                            <span class="font-black text-sm text-white">PET SAFE FORMULA</span>
                         </div>
                     </div>
                 </div>
@@ -141,11 +150,11 @@
             <section class="py-24 container mx-auto px-6">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4 reveal">
                     <div>
-                        <h2 class="text-4xl font-black text-slate-900 mb-2">UK Best Sellers</h2>
-                        <p class="text-slate-500">Phakki favorites for your daily routine.</p>
+                        <h2 class="text-4xl font-black text-slate-900 mb-2">Essential Daily Care</h2>
+                        <p class="text-slate-500">Targeted support for every stage of your pet's life.</p>
                     </div>
-                    <button onclick="showPage('shop')" class="text-emerald-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
-                        Browse All <i data-lucide="arrow-right" size="20"></i>
+                    <button onclick="showPage('shop')" class="text-blue-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                        View Full Range <i data-lucide="arrow-right" size="20"></i>
                     </button>
                 </div>
                 <div id="best-sellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -157,8 +166,8 @@
         <!-- Shop Section -->
         <section id="shop-page" class="page-section hidden pt-32 pb-20 container mx-auto px-6">
             <div class="mb-12 reveal active">
-                <h2 class="text-4xl font-black text-slate-900 mb-4">The Phakki Store</h2>
-                <div id="category-filters" class="flex flex-wrap gap-3">
+                <h2 class="text-4xl font-black text-slate-900 mb-4 text-center">Shop by Health Goal</h2>
+                <div id="category-filters" class="flex flex-wrap justify-center gap-3">
                     <!-- Categories injected via JS -->
                 </div>
             </div>
@@ -171,23 +180,30 @@
         <section id="about-page" class="page-section hidden pt-32 pb-20 container mx-auto px-6">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-16 reveal active">
-                    <h2 class="text-5xl font-black text-slate-900 mb-6 leading-tight">Phakki: Backed <br/><span class="text-emerald-600">by Pure Science.</span></h2>
-                    <p class="text-xl text-slate-600 leading-relaxed">Phakki is a premium wellness brand focused on delivering high-potency vitamins and supplements across the United Kingdom.</p>
+                    <h2 class="text-5xl font-black text-slate-900 mb-6 leading-tight">Better Nutrition. <span class="text-blue-600">Pure Love.</span></h2>
+                    <p class="text-xl text-slate-600 leading-relaxed">At Pawvance, we believe pets are family. That's why we use human-grade ingredients and strictly clinical dosages to ensure your companion lives their happiest, healthiest life.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm reveal active reveal-delay-1">
-                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
-                            <i data-lucide="shield-check" size="32"></i>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm reveal active">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="shield-check" size="24"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4">Highest Quality</h3>
-                        <p class="text-slate-500">Our manufacturing processes follow strict cGMP standards to ensure every Phakki capsule meets world-class quality.</p>
+                        <h3 class="text-lg font-bold mb-2">UK Lab Tested</h3>
+                        <p class="text-slate-500 text-sm">Every batch is tested for purity and potency in independent UK laboratories.</p>
                     </div>
-                    <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm reveal active reveal-delay-2">
-                        <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                            <i data-lucide="leaf" size="32"></i>
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm reveal active reveal-delay-1">
+                        <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="smile" size="24"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4">Clean Ingredients</h3>
-                        <p class="text-slate-500">We source only the purest raw materials, ensuring that Phakki supplements are free from harmful additives.</p>
+                        <h3 class="text-lg font-bold mb-2">Tasty Chews</h3>
+                        <p class="text-slate-500 text-sm">Formulated with natural chicken and beef flavors that pets actually look forward to.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm reveal active reveal-delay-2">
+                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-6">
+                            <i data-lucide="leaf" size="24"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">No Fillers</h3>
+                        <p class="text-slate-500 text-sm">Zero corn, soy, or artificial preservatives. Only what they need, nothing else.</p>
                     </div>
                 </div>
             </div>
@@ -195,9 +211,9 @@
 
         <!-- Cart Section -->
         <section id="cart-page" class="page-section hidden pt-32 pb-20 container mx-auto px-6">
-            <h2 class="text-4xl font-black text-slate-900 mb-10 text-center reveal active">Review Your Order</h2>
+            <h2 class="text-4xl font-black text-slate-900 mb-10 text-center reveal active">Your Pet's Wellness Box</h2>
             <div id="cart-content-wrapper" class="grid lg:grid-cols-3 gap-12">
-                <!-- Cart Items and Summary injected via JS -->
+                <!-- Cart Items injected via JS -->
             </div>
         </section>
     </div>
@@ -205,55 +221,97 @@
     <!-- Footer -->
     <footer class="bg-slate-50 border-t border-slate-100 py-20 px-6 mt-20">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div class="md:col-span-2 reveal active">
+            <div class="md:col-span-2">
                 <div class="flex items-center gap-2 mb-6">
-                    <div class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">P</div>
-                    <span class="text-xl font-bold tracking-tight text-slate-800">Phakki</span>
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                        <i data-lucide="paw-print" size="16"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-slate-800">Pawvance</span>
                 </div>
-                <p class="text-slate-500 max-w-sm mb-8 leading-relaxed">UK's premier wellness brand. Modern nutrition for the modern life.</p>
+                <p class="text-slate-500 max-w-sm mb-8 leading-relaxed">Pioneering pet health through nutritional excellence. Proudly based in London, serving pets nationwide.</p>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center hover:bg-blue-50 cursor-pointer"><i data-lucide="instagram" size="18"></i></div>
+                    <div class="w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center hover:bg-blue-50 cursor-pointer"><i data-lucide="facebook" size="18"></i></div>
+                </div>
             </div>
-            <div class="reveal active reveal-delay-1">
-                <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Shop By</h4>
+            <div>
+                <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Shop</h4>
                 <ul class="space-y-4 text-slate-500 text-sm">
-                    <li class="hover:text-emerald-600 cursor-pointer">Beauty</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Men</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Kids</li>
+                    <li class="hover:text-blue-600 cursor-pointer">Joint & Bone</li>
+                    <li class="hover:text-blue-600 cursor-pointer">Skin & Coat</li>
+                    <li class="hover:text-blue-600 cursor-pointer">Calming Aids</li>
+                    <li class="hover:text-blue-600 cursor-pointer">Multivitamins</li>
                 </ul>
             </div>
-            <div class="reveal active reveal-delay-2">
-                <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Help</h4>
+            <div>
+                <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">About</h4>
                 <ul class="space-y-4 text-slate-500 text-sm">
-                    <li class="hover:text-emerald-600 cursor-pointer">Shipping</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Returns</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Contact</li>
+                    <li class="hover:text-blue-600 cursor-pointer">Vet Partners</li>
+                    <li class="hover:text-blue-600 cursor-pointer">Our Sourcing</li>
+                    <li class="hover:text-blue-600 cursor-pointer">Sustainability</li>
                 </ul>
             </div>
         </div>
-        <div class="container mx-auto mt-20 pt-8 border-t border-slate-200 text-slate-400 text-xs text-center">
-            <p>© 2024 Phakki Wellness UK. All rights reserved.</p>
+        <div class="container mx-auto mt-20 pt-8 border-t border-slate-200 text-slate-400 text-[10px] text-center uppercase tracking-widest">
+            <p>© 2026 Pawvance Pet Nutrition UK. Supplements are not a replacement for professional veterinary care.</p>
         </div>
     </footer>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div id="toast" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
-        <div class="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-slate-900"><i data-lucide="shopping-bag" size="14"></i></div>
+        <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-slate-900"><i data-lucide="check" size="14"></i></div>
         <span id="toast-message" class="font-bold">Added to cart!</span>
     </div>
 
     <script>
-        // Data
+        // Data updated for Pet Vitamins (Premium Bottle Mockups)
         const PRODUCTS = [
-            { id: 'p1', name: 'Gencell Collagen', category: 'Beauty', price: 34.99, oldPrice: 49.99, image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400', description: 'Hydrolyzed Marine Collagen Type 1 & 3 with Vitamin C and Biotin.', amazonUrl: '#' },
-            { id: 'p2', name: 'Biotin Plus', category: 'Beauty', price: 12.99, oldPrice: 19.99, image: 'https://images.unsplash.com/photo-1550572566-9592eaa15f30?auto=format&fit=crop&q=80&w=400', description: 'Essential B vitamins to restore healthy hair and support nail strength.', amazonUrl: '#' },
-            { id: 'p3', name: 'Tryception', category: 'Men', price: 39.99, oldPrice: 54.99, image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400', description: 'Advanced combination of vital nutrients based on men’s health.', amazonUrl: '#' },
-            { id: 'p4', name: 'Bio Grow', category: 'Kids', price: 14.99, oldPrice: 22.99, image: 'https://images.unsplash.com/photo-1614859324967-bdf471b4024e?auto=format&fit=crop&q=80&w=400', description: 'Multivitamin syrup for children to support healthy growth.', amazonUrl: '#' }
+            { 
+                id: 'p1', 
+                name: 'Active Mobility Chews', 
+                category: 'Joints', 
+                price: 22.50, 
+                oldPrice: 28.00, 
+                image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=600', 
+                description: 'Glucosamine, Chondroitin & Turmeric for stiff joints and active play.', 
+                amazonUrl: '#' 
+            },
+            { 
+                id: 'p2', 
+                name: 'Silk Coat Omega Oil', 
+                category: 'Skin', 
+                price: 18.99, 
+                oldPrice: null, 
+                image: 'https://images.unsplash.com/photo-1631549916768-4119b295f946?auto=format&fit=crop&q=80&w=600', 
+                description: 'Premium Salmon & Pollock oil for reduced itching and a mirror-like shine.', 
+                amazonUrl: '#' 
+            },
+            { 
+                id: 'p3', 
+                name: 'Zen Calm Soft Chews', 
+                category: 'Calming', 
+                price: 24.00, 
+                oldPrice: 30.00, 
+                image: 'https://images.unsplash.com/photo-1626285861696-9f0bf5a49c6d?auto=format&fit=crop&q=80&w=600', 
+                description: 'L-Theanine and Hemp seed blend for anxiety during fireworks or travel.', 
+                amazonUrl: '#' 
+            },
+            { 
+                id: 'p4', 
+                name: 'Probiotic Plus Powder', 
+                category: 'Digestion', 
+                price: 19.50, 
+                oldPrice: 22.00, 
+                image: 'https://images.unsplash.com/photo-1614859324967-bdf471b4024e?auto=format&fit=crop&q=80&w=600', 
+                description: '5 billion CFU per scoop to balance gut flora and improve digestion.', 
+                amazonUrl: '#' 
+            }
         ];
 
-        const CATEGORIES = ['All', 'Beauty', 'Men', 'Kids', 'Wellness'];
+        const CATEGORIES = ['All', 'Joints', 'Skin', 'Calming', 'Digestion'];
         let cart = [];
         let currentFilter = 'All';
 
-        // Initialize
         window.onload = () => {
             lucide.createIcons();
             renderProducts('best-sellers-grid', PRODUCTS);
@@ -284,7 +342,7 @@
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 150;
+                const elementVisible = 100;
                 if (elementTop < windowHeight - elementVisible) {
                     el.classList.add('active');
                 }
@@ -293,20 +351,16 @@
 
         function showPage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-            const activeSection = document.getElementById(`${pageId}-page`);
-            activeSection.classList.remove('hidden');
-            
-            // Re-trigger scroll reveal for the new page
+            document.getElementById(`${pageId}-page`).classList.remove('hidden');
             setTimeout(revealOnScroll, 50);
-
             window.scrollTo(0, 0);
             
             document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('text-emerald-600');
+                link.classList.remove('text-blue-600');
                 link.classList.add('text-slate-600');
-                if (link.innerText.toLowerCase() === pageId) {
+                if (link.innerText.toLowerCase().includes(pageId)) {
                     link.classList.remove('text-slate-600');
-                    link.classList.add('text-emerald-600');
+                    link.classList.add('text-blue-600');
                 }
             });
 
@@ -323,483 +377,22 @@
         function renderProducts(containerId, list) {
             const container = document.getElementById(containerId);
             container.innerHTML = list.map((p, index) => `
-                <div class="product-card reveal active reveal-delay-${(index % 4) + 1} group bg-white rounded-3xl p-4 border border-slate-100 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-100">
-                    <div class="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-4 cursor-pointer">
-                        <img src="${p.image}" alt="${p.name}" class="product-image w-full h-full object-cover transition-transform duration-700">
-                        <div class="absolute top-3 right-3">
-                            <button class="p-2 bg-white/90 backdrop-blur-sm rounded-full text-slate-400 hover:text-red-500 transition-colors shadow-sm"><i data-lucide="heart" size="18"></i></button>
-                        </div>
-                        ${p.oldPrice ? `<div class="absolute top-3 left-3 px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded-md">SALE</div>` : ''}
+                <div class="product-card reveal active reveal-delay-${(index % 4) + 1} bg-white rounded-3xl p-5 border border-slate-100 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-100 transition-all">
+                    <div class="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-4 pet-gradient p-6 flex items-center justify-center">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain drop-shadow-xl transform group-hover:scale-110 transition-transform duration-500">
+                        ${p.oldPrice ? `<div class="absolute top-3 left-3 px-3 py-1 bg-orange-500 text-white text-[10px] font-black rounded-lg uppercase">SAVE</div>` : ''}
                     </div>
-                    <div class="px-1">
-                        <div class="flex items-center gap-1 mb-1">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${p.category}</span>
-                        </div>
-                        <h3 class="font-bold text-slate-800 mb-1 line-clamp-1">${p.name}</h3>
-                        <p class="text-xs text-slate-500 mb-4 line-clamp-2 h-8">${p.description}</p>
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-xl font-bold text-slate-900">£${p.price.toFixed(2)}</span>
-                                ${p.oldPrice ? `<span class="text-sm text-slate-400 line-through ml-2">£${p.oldPrice.toFixed(2)}</span>` : ''}
-                            </div>
-                            <button onclick="addToCart('${p.id}')" class="p-3 bg-slate-900 text-white rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-slate-200">
-                                <i data-lucide="shopping-bag" size="18"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            lucide.createIcons();
-            setTimeout(revealOnScroll, 100);
-        }
-
-        function renderFilters() {
-            const container = document.getElementById('category-filters');
-            container.innerHTML = CATEGORIES.map(cat => `
-                <button onclick="filterShop('${cat}')" class="px-6 py-3 rounded-2xl font-bold transition-all ${currentFilter === cat ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-100' : 'bg-white text-slate-600 border border-slate-200 hover:border-emerald-300'}">
-                    ${cat}
-                </button>
-            `).join('');
-        }
-
-        function filterShop(cat) {
-            currentFilter = cat;
-            renderFilters();
-            renderShop();
-        }
-
-        function renderShop() {
-            const list = currentFilter === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.category === currentFilter);
-            renderProducts('shop-grid', list);
-        }
-
-        function addToCart(productId) {
-            const product = PRODUCTS.find(p => p.id === productId);
-            cart.push(product);
-            updateCartUI();
-            showToast(`${product.name} added to cart!`);
-        }
-
-        function updateCartUI() {
-            const count = document.getElementById('cart-count');
-            count.innerText = cart.length;
-            if (cart.length > 0) count.classList.remove('hidden');
-            else count.classList.add('hidden');
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = msg;
-            toast.classList.remove('hidden');
-            toast.style.animation = 'pageFadeIn 0.3s forwards';
-            setTimeout(() => toast.classList.add('hidden'), 3000);
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-            renderCart();
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-content-wrapper');
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-3 text-center py-20 reveal active">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300"><i data-lucide="shopping-bag" size="48"></i></div>
-                        <h2 class="text-3xl font-black text-slate-900 mb-4">Your cart is empty</h2>
-                        <button onclick="showPage('shop')" class="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold">Start Shopping</button>
-                    </div>
-                `;
-                lucide.createIcons();
-                return;
-            }
-
-            const total = cart.reduce((sum, p) => sum + p.price, 0);
-            
-            container.innerHTML = `
-                <div class="lg:col-span-2 space-y-6 reveal active">
-                    <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">Your Selection (${cart.length})</h3>
-                        <div class="space-y-6">
-                            ${cart.map((item, idx) => `
-                                <div class="flex items-center gap-6 pb-6 border-b border-slate-50 last:border-0 last:pb-0">
-                                    <img src="${item.image}" class="w-20 h-20 rounded-2xl object-cover bg-slate-50">
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-slate-900">${item.name}</h4>
-                                        <p class="text-xs text-slate-500">${item.category}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-bold text-slate-900">£${item.price.toFixed(2)}</p>
-                                        <button onclick="removeFromCart(${idx})" class="text-xs text-red-500 font-bold hover:underline">Remove</button>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-                <div class="space-y-6 reveal active reveal-delay-2">
-                    <div class="bg-slate-900 text-white p-8 rounded-[2rem] shadow-2xl sticky top-28">
-                        <h3 class="text-2xl font-black mb-8">Summary</h3>
-                        <div class="space-y-4 mb-8">
-                            <div class="flex justify-between text-slate-400"><span>Subtotal</span><span class="text-white font-bold">£${total.toFixed(2)}</span></div>
-                            <div class="flex justify-between text-slate-400"><span>Shipping</span><span class="text-emerald-400 font-bold text-xs">FREE</span></div>
-                            <div class="pt-4 border-t border-slate-800 flex justify-between"><span class="text-lg font-bold">Total</span><span class="text-2xl font-black text-emerald-400">£${total.toFixed(2)}</span></div>
-                        </div>
-                        <button class="w-full py-5 bg-emerald-500 text-slate-900 rounded-2xl font-black text-lg hover:bg-emerald-400 transition-all">Checkout</button>
-                    </div>
-                </div>
-            `;
-            lucide.createIcons();
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phakki | Premium Wellness & Supplements UK</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        /* --- Reveal Animations --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-
-        /* Staggered entry for product cards */
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-        }
-
-        [v-cloak] { display: none; }
-
-        /* Smooth page transitions */
-        .page-section {
-            animation: pageFadeIn 0.5s ease-out forwards;
-        }
-
-        @keyframes pageFadeIn {
-            from { opacity: 0; filter: blur(4px); }
-            to { opacity: 1; filter: blur(0); }
-        }
-    </style>
-</head>
-<body class="bg-[#FDFDFF] text-slate-900">
-
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-5">
-        <div class="container mx-auto px-6 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('home')">
-                <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-200">P</div>
-                <span class="text-2xl font-bold tracking-tight text-slate-800">Phakki<span class="text-emerald-600">.</span></span>
-            </div>
-
-            <div class="hidden md:flex items-center gap-8">
-                <button onclick="showPage('home')" class="nav-link text-sm font-medium text-emerald-600">Home</button>
-                <button onclick="showPage('shop')" class="nav-link text-sm font-medium text-slate-600 hover:text-emerald-500">Shop</button>
-                <button onclick="showPage('about')" class="nav-link text-sm font-medium text-slate-600 hover:text-emerald-500">About</button>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <button class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"><i data-lucide="search" size="20"></i></button>
-                <button onclick="showPage('cart')" class="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors relative">
-                    <i data-lucide="shopping-bag" size="20"></i>
-                    <span id="cart-count" class="hidden absolute top-0 right-0 w-4 h-4 bg-emerald-600 text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white">0</span>
-                </button>
-                <button class="md:hidden p-2 text-slate-600" onclick="toggleMobileMenu()"><i data-lucide="menu" id="menu-icon"></i></button>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 p-6 flex flex-col gap-4 shadow-xl">
-            <button onclick="showPage('home')" class="text-lg font-medium text-slate-700 text-left">Home</button>
-            <button onclick="showPage('shop')" class="text-lg font-medium text-slate-700 text-left">Shop</button>
-            <button onclick="showPage('about')" class="text-lg font-medium text-slate-700 text-left">About</button>
-        </div>
-    </nav>
-
-    <!-- Content Sections -->
-    <div id="main-content">
-        <!-- Home Section -->
-        <section id="home-page" class="page-section">
-            <div class="relative min-h-[95vh] flex items-center pt-20 overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-blue-50">
-                <div class="absolute top-1/4 -right-20 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl"></div>
-                <div class="absolute bottom-1/4 -left-20 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
-                
-                <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-                    <div class="z-10 text-center md:text-left reveal active">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold tracking-widest uppercase mb-6">
-                            <i data-lucide="leaf" size="14"></i> Made in the UK
-                        </div>
-                        <h1 class="text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-6">
-                            Elevate Your <span class="text-emerald-600">Vitality</span> Every Day.
-                        </h1>
-                        <p class="text-lg text-slate-600 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed">
-                            Phakki brings you premium dietary supplements crafted with pharmaceutical expertise. Science-backed nutrition for a healthier UK.
-                        </p>
-                        <div class="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-                            <button onclick="showPage('shop')" class="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-200 transform hover:-translate-y-1">
-                                Shop Collection <i data-lucide="arrow-right" size="20"></i>
-                            </button>
-                            <button class="px-8 py-4 bg-white text-slate-800 border border-slate-200 rounded-2xl font-bold hover:bg-slate-50 transition-all">
-                                Our Science
-                            </button>
-                        </div>
-                    </div>
-                    <div class="relative reveal active reveal-delay-2">
-                        <div class="relative z-10 w-full aspect-square bg-white rounded-3xl shadow-2xl overflow-hidden group">
-                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200" alt="Wellness" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
-                            <div class="absolute bottom-6 left-6 right-6 p-4 bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30 text-white">
-                                <p class="font-semibold">Featured: Phakki Skincare Series</p>
-                                <p class="text-sm opacity-80">Boost your natural radiance from within.</p>
-                            </div>
-                        </div>
-                        <div class="absolute -top-6 -right-6 w-32 h-32 bg-yellow-400 rounded-full flex items-center justify-center text-center p-4 transform rotate-12 shadow-xl">
-                            <span class="font-black text-sm text-yellow-950">SAVE UP TO 35% TODAY</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <section class="py-24 container mx-auto px-6">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4 reveal">
                     <div>
-                        <h2 class="text-4xl font-black text-slate-900 mb-2">UK Best Sellers</h2>
-                        <p class="text-slate-500">Phakki favorites for your daily routine.</p>
-                    </div>
-                    <button onclick="showPage('shop')" class="text-emerald-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
-                        Browse All <i data-lucide="arrow-right" size="20"></i>
-                    </button>
-                </div>
-                <div id="best-sellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Products injected via JS -->
-                </div>
-            </section>
-        </section>
-
-        <!-- Shop Section -->
-        <section id="shop-page" class="page-section hidden pt-32 pb-20 container mx-auto px-6">
-            <div class="mb-12 reveal active">
-                <h2 class="text-4xl font-black text-slate-900 mb-4">The Phakki Store</h2>
-                <div id="category-filters" class="flex flex-wrap gap-3">
-                    <!-- Categories injected via JS -->
-                </div>
-            </div>
-            <div id="shop-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Filtered Products injected via JS -->
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about-page" class="page-section hidden pt-32 pb-20 container mx-auto px-6">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-16 reveal active">
-                    <h2 class="text-5xl font-black text-slate-900 mb-6 leading-tight">Phakki: Backed <br/><span class="text-emerald-600">by Pure Science.</span></h2>
-                    <p class="text-xl text-slate-600 leading-relaxed">Phakki is a premium wellness brand focused on delivering high-potency vitamins and supplements across the United Kingdom.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm reveal active reveal-delay-1">
-                        <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
-                            <i data-lucide="shield-check" size="32"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">Highest Quality</h3>
-                        <p class="text-slate-500">Our manufacturing processes follow strict cGMP standards to ensure every Phakki capsule meets world-class quality.</p>
-                    </div>
-                    <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm reveal active reveal-delay-2">
-                        <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                            <i data-lucide="leaf" size="32"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">Clean Ingredients</h3>
-                        <p class="text-slate-500">We source only the purest raw materials, ensuring that Phakki supplements are free from harmful additives.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Cart Section -->
-        <section id="cart-page" class="page-section hidden pt-32 pb-20 container mx-auto px-6">
-            <h2 class="text-4xl font-black text-slate-900 mb-10 text-center reveal active">Review Your Order</h2>
-            <div id="cart-content-wrapper" class="grid lg:grid-cols-3 gap-12">
-                <!-- Cart Items and Summary injected via JS -->
-            </div>
-        </section>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-slate-50 border-t border-slate-100 py-20 px-6 mt-20">
-        <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div class="md:col-span-2 reveal active">
-                <div class="flex items-center gap-2 mb-6">
-                    <div class="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">P</div>
-                    <span class="text-xl font-bold tracking-tight text-slate-800">Phakki</span>
-                </div>
-                <p class="text-slate-500 max-w-sm mb-8 leading-relaxed">UK's premier wellness brand. Modern nutrition for the modern life.</p>
-            </div>
-            <div class="reveal active reveal-delay-1">
-                <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Shop By</h4>
-                <ul class="space-y-4 text-slate-500 text-sm">
-                    <li class="hover:text-emerald-600 cursor-pointer">Beauty</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Men</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Kids</li>
-                </ul>
-            </div>
-            <div class="reveal active reveal-delay-2">
-                <h4 class="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Help</h4>
-                <ul class="space-y-4 text-slate-500 text-sm">
-                    <li class="hover:text-emerald-600 cursor-pointer">Shipping</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Returns</li>
-                    <li class="hover:text-emerald-600 cursor-pointer">Contact</li>
-                </ul>
-            </div>
-        </div>
-        <div class="container mx-auto mt-20 pt-8 border-t border-slate-200 text-slate-400 text-xs text-center">
-            <p>© 2024 Phakki Wellness UK. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
-        <div class="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-slate-900"><i data-lucide="shopping-bag" size="14"></i></div>
-        <span id="toast-message" class="font-bold">Added to cart!</span>
-    </div>
-
-    <script>
-        // Data
-        const PRODUCTS = [
-            { id: 'p1', name: 'Gencell Collagen', category: 'Beauty', price: 34.99, oldPrice: 49.99, image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400', description: 'Hydrolyzed Marine Collagen Type 1 & 3 with Vitamin C and Biotin.', amazonUrl: '#' },
-            { id: 'p2', name: 'Biotin Plus', category: 'Beauty', price: 12.99, oldPrice: 19.99, image: 'https://images.unsplash.com/photo-1550572566-9592eaa15f30?auto=format&fit=crop&q=80&w=400', description: 'Essential B vitamins to restore healthy hair and support nail strength.', amazonUrl: '#' },
-            { id: 'p3', name: 'Tryception', category: 'Men', price: 39.99, oldPrice: 54.99, image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400', description: 'Advanced combination of vital nutrients based on men’s health.', amazonUrl: '#' },
-            { id: 'p4', name: 'Bio Grow', category: 'Kids', price: 14.99, oldPrice: 22.99, image: 'https://images.unsplash.com/photo-1614859324967-bdf471b4024e?auto=format&fit=crop&q=80&w=400', description: 'Multivitamin syrup for children to support healthy growth.', amazonUrl: '#' }
-        ];
-
-        const CATEGORIES = ['All', 'Beauty', 'Men', 'Kids', 'Wellness'];
-        let cart = [];
-        let currentFilter = 'All';
-
-        // Initialize
-        window.onload = () => {
-            lucide.createIcons();
-            renderProducts('best-sellers-grid', PRODUCTS);
-            renderShop();
-            renderFilters();
-            updateCartUI();
-            initScrollReveal();
-
-            window.addEventListener('scroll', () => {
-                const nav = document.getElementById('navbar');
-                if (window.scrollY > 20) {
-                    nav.classList.add('glass-nav', 'shadow-sm', 'py-3');
-                    nav.classList.remove('py-5');
-                } else {
-                    nav.classList.remove('glass-nav', 'shadow-sm', 'py-3');
-                    nav.classList.add('py-5');
-                }
-                revealOnScroll();
-            });
-        };
-
-        function initScrollReveal() {
-            setTimeout(revealOnScroll, 100);
-        }
-
-        function revealOnScroll() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(el => {
-                const windowHeight = window.innerHeight;
-                const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    el.classList.add('active');
-                }
-            });
-        }
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-            const activeSection = document.getElementById(`${pageId}-page`);
-            activeSection.classList.remove('hidden');
-            
-            // Re-trigger scroll reveal for the new page
-            setTimeout(revealOnScroll, 50);
-
-            window.scrollTo(0, 0);
-            
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('text-emerald-600');
-                link.classList.add('text-slate-600');
-                if (link.innerText.toLowerCase() === pageId) {
-                    link.classList.remove('text-slate-600');
-                    link.classList.add('text-emerald-600');
-                }
-            });
-
-            if (pageId === 'cart') renderCart();
-            if (document.getElementById('mobile-menu').classList.contains('flex')) toggleMobileMenu();
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-        }
-
-        function renderProducts(containerId, list) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = list.map((p, index) => `
-                <div class="product-card reveal active reveal-delay-${(index % 4) + 1} group bg-white rounded-3xl p-4 border border-slate-100 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-100">
-                    <div class="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-4 cursor-pointer">
-                        <img src="${p.image}" alt="${p.name}" class="product-image w-full h-full object-cover transition-transform duration-700">
-                        <div class="absolute top-3 right-3">
-                            <button class="p-2 bg-white/90 backdrop-blur-sm rounded-full text-slate-400 hover:text-red-500 transition-colors shadow-sm"><i data-lucide="heart" size="18"></i></button>
-                        </div>
-                        ${p.oldPrice ? `<div class="absolute top-3 left-3 px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded-md">SALE</div>` : ''}
-                    </div>
-                    <div class="px-1">
-                        <div class="flex items-center gap-1 mb-1">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">${p.category}</span>
-                        </div>
-                        <h3 class="font-bold text-slate-800 mb-1 line-clamp-1">${p.name}</h3>
-                        <p class="text-xs text-slate-500 mb-4 line-clamp-2 h-8">${p.description}</p>
+                        <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">${p.category}</span>
+                        <h3 class="font-bold text-slate-800 text-lg mb-1">${p.name}</h3>
+                        <p class="text-xs text-slate-500 mb-4 line-clamp-2">${p.description}</p>
                         <div class="flex items-center justify-between">
-                            <div>
-                                <span class="text-xl font-bold text-slate-900">£${p.price.toFixed(2)}</span>
-                                ${p.oldPrice ? `<span class="text-sm text-slate-400 line-through ml-2">£${p.oldPrice.toFixed(2)}</span>` : ''}
+                            <div class="flex flex-col">
+                                <span class="text-xl font-black text-slate-900">£${p.price.toFixed(2)}</span>
+                                ${p.oldPrice ? `<span class="text-xs text-slate-400 line-through">£${p.oldPrice.toFixed(2)}</span>` : ''}
                             </div>
-                            <button onclick="addToCart('${p.id}')" class="p-3 bg-slate-900 text-white rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-slate-200">
-                                <i data-lucide="shopping-bag" size="18"></i>
+                            <button onclick="addToCart('${p.id}')" class="p-3 bg-slate-900 text-white rounded-xl hover:bg-blue-600 transition-colors shadow-lg">
+                                <i data-lucide="plus" size="20"></i>
                             </button>
                         </div>
                     </div>
@@ -812,7 +405,7 @@
         function renderFilters() {
             const container = document.getElementById('category-filters');
             container.innerHTML = CATEGORIES.map(cat => `
-                <button onclick="filterShop('${cat}')" class="px-6 py-3 rounded-2xl font-bold transition-all ${currentFilter === cat ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-100' : 'bg-white text-slate-600 border border-slate-200 hover:border-emerald-300'}">
+                <button onclick="filterShop('${cat}')" class="px-6 py-2 rounded-full font-bold transition-all ${currentFilter === cat ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' : 'bg-white text-slate-500 border border-slate-200'}">
                     ${cat}
                 </button>
             `).join('');
@@ -833,21 +426,19 @@
             const product = PRODUCTS.find(p => p.id === productId);
             cart.push(product);
             updateCartUI();
-            showToast(`${product.name} added to cart!`);
+            showToast(`${product.name} added!`);
         }
 
         function updateCartUI() {
             const count = document.getElementById('cart-count');
             count.innerText = cart.length;
-            if (cart.length > 0) count.classList.remove('hidden');
-            else count.classList.add('hidden');
+            count.classList.toggle('hidden', cart.length === 0);
         }
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-message').innerText = msg;
             toast.classList.remove('hidden');
-            toast.style.animation = 'pageFadeIn 0.3s forwards';
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
@@ -860,50 +451,31 @@
         function renderCart() {
             const container = document.getElementById('cart-content-wrapper');
             if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-3 text-center py-20 reveal active">
-                        <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300"><i data-lucide="shopping-bag" size="48"></i></div>
-                        <h2 class="text-3xl font-black text-slate-900 mb-4">Your cart is empty</h2>
-                        <button onclick="showPage('shop')" class="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold">Start Shopping</button>
-                    </div>
-                `;
-                lucide.createIcons();
+                container.innerHTML = `<div class="col-span-3 text-center py-20"><h2 class="text-2xl font-bold mb-4">Your Wellness Box is Empty</h2><button onclick="showPage('shop')" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold">Start Shopping</button></div>`;
                 return;
             }
 
             const total = cart.reduce((sum, p) => sum + p.price, 0);
-            
             container.innerHTML = `
-                <div class="lg:col-span-2 space-y-6 reveal active">
-                    <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2">Your Selection (${cart.length})</h3>
-                        <div class="space-y-6">
-                            ${cart.map((item, idx) => `
-                                <div class="flex items-center gap-6 pb-6 border-b border-slate-50 last:border-0 last:pb-0">
-                                    <img src="${item.image}" class="w-20 h-20 rounded-2xl object-cover bg-slate-50">
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-slate-900">${item.name}</h4>
-                                        <p class="text-xs text-slate-500">${item.category}</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <p class="font-bold text-slate-900">£${item.price.toFixed(2)}</p>
-                                        <button onclick="removeFromCart(${idx})" class="text-xs text-red-500 font-bold hover:underline">Remove</button>
-                                    </div>
-                                </div>
-                            `).join('')}
+                <div class="lg:col-span-2 space-y-4">
+                    ${cart.map((item, idx) => `
+                        <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center gap-6">
+                            <img src="${item.image}" class="w-20 h-20 rounded-xl object-contain bg-slate-50">
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-900">${item.name}</h4>
+                                <p class="text-xl font-black">£${item.price.toFixed(2)}</p>
+                            </div>
+                            <button onclick="removeFromCart(${idx})" class="text-red-500 p-2 hover:bg-red-50 rounded-lg"><i data-lucide="trash-2" size="20"></i></button>
                         </div>
-                    </div>
+                    `).join('')}
                 </div>
-                <div class="space-y-6 reveal active reveal-delay-2">
-                    <div class="bg-slate-900 text-white p-8 rounded-[2rem] shadow-2xl sticky top-28">
-                        <h3 class="text-2xl font-black mb-8">Summary</h3>
-                        <div class="space-y-4 mb-8">
-                            <div class="flex justify-between text-slate-400"><span>Subtotal</span><span class="text-white font-bold">£${total.toFixed(2)}</span></div>
-                            <div class="flex justify-between text-slate-400"><span>Shipping</span><span class="text-emerald-400 font-bold text-xs">FREE</span></div>
-                            <div class="pt-4 border-t border-slate-800 flex justify-between"><span class="text-lg font-bold">Total</span><span class="text-2xl font-black text-emerald-400">£${total.toFixed(2)}</span></div>
-                        </div>
-                        <button class="w-full py-5 bg-emerald-500 text-slate-900 rounded-2xl font-black text-lg hover:bg-emerald-400 transition-all">Checkout</button>
-                    </div>
+                <div class="bg-slate-900 text-white p-8 rounded-[2.5rem] h-fit sticky top-28">
+                    <h3 class="text-xl font-black mb-6">Order Summary</h3>
+                    <div class="flex justify-between mb-4"><span>Subtotal</span><span>£${total.toFixed(2)}</span></div>
+                    <div class="flex justify-between mb-8 text-blue-400 font-bold"><span>UK Pet Delivery</span><span>FREE</span></div>
+                    <div class="flex justify-between text-2xl font-black mb-8 border-t border-slate-800 pt-4"><span>Total</span><span>£${total.toFixed(2)}</span></div>
+                    <button class="w-full bg-blue-500 text-slate-900 py-4 rounded-2xl font-black hover:bg-blue-400 transition-all">Secure Checkout</button>
+                    <p class="text-[10px] text-center mt-4 text-slate-500 uppercase tracking-widest">30-Day Happiness Guarantee</p>
                 </div>
             `;
             lucide.createIcons();
