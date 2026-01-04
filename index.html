@@ -1,12 +1,519 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Phakki Demo Store</title>
-</head>
-<body>
-  <h1>Phakki Demo Store</h1>
-  <p>This is a demo for the Phakki wellness e-commerce app built with React.</p>
-  <p>Please see the repository code for details.</p>
-</body>
-</html>
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  ShoppingBag, 
+  Search, 
+  Menu, 
+  X, 
+  Star, 
+  ChevronRight, 
+  Truck, 
+  ShieldCheck, 
+  Leaf, 
+  ExternalLink,
+  ArrowRight,
+  Heart,
+  ChevronDown
+} from 'lucide-react';
+
+// --- Mock Data ---
+const PRODUCTS = [
+  {
+    id: 'p1',
+    name: 'Gencell Collagen',
+    category: 'Beauty',
+    price: 170,
+    oldPrice: 260,
+    rating: 4.8,
+    reviews: 124,
+    image: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400',
+    description: 'Hydrolyzed Marine Collagen Type 1 & 3 with Vitamin C and Biotin for glowing skin.',
+    amazonUrl: 'https://www.amazon.ae/s?k=Nutrifactor+Gencell'
+  },
+  {
+    id: 'p2',
+    name: 'Biotin Plus',
+    category: 'Beauty',
+    price: 55,
+    oldPrice: 75,
+    rating: 4.9,
+    reviews: 538,
+    image: 'https://images.unsplash.com/photo-1550572566-9592eaa15f30?auto=format&fit=crop&q=80&w=400',
+    description: 'Essential B vitamins to restore healthy hair, reduce split ends and support nail strength.',
+    amazonUrl: 'https://www.amazon.ae/s?k=Nutrifactor+Biotin+Plus'
+  },
+  {
+    id: 'p3',
+    name: 'Tryception',
+    category: 'Men',
+    price: 160,
+    oldPrice: 220,
+    rating: 4.7,
+    reviews: 86,
+    image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400',
+    description: 'Advanced combination of vital nutrients based on men’s reproductive health.',
+    amazonUrl: 'https://www.amazon.ae/s?k=Nutrifactor+Tryception'
+  },
+  {
+    id: 'p4',
+    name: 'Bio Grow',
+    category: 'Kids',
+    price: 45,
+    oldPrice: 60,
+    rating: 4.9,
+    reviews: 215,
+    image: 'https://images.unsplash.com/photo-1614859324967-bdf471b4024e?auto=format&fit=crop&q=80&w=400',
+    description: 'Multivitamin syrup for children to support healthy growth and appetite.',
+    amazonUrl: 'https://www.amazon.ae/s?k=Nutrifactor+Bio+Grow'
+  }
+];
+
+const CATEGORIES = [
+  { name: 'All', icon: <ShoppingBag size={18} /> },
+  { name: 'Beauty', icon: <Heart size={18} /> },
+  { name: 'Men', icon: <ShieldCheck size={18} /> },
+  { name: 'Kids', icon: <Leaf size={18} /> },
+  { name: 'Wellness', icon: <Star size={18} /> }
+];
+
+// --- Components ---
+
+const Navbar = ({ activePage, setActivePage, cartCount }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: 'Home', id: 'home' },
+    { name: 'Shop', id: 'shop' },
+    { name: 'About', id: 'about' },
+    { name: 'Science', id: 'science' }
+  ];
+
+  return (
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+      <div className="container mx-auto px-6 flex items-center justify-between">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActivePage('home')}>
+          <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-200">P</div>
+          <span className="text-2xl font-bold tracking-tight text-slate-800">Phakki<span className="text-emerald-600">.</span></span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map(link => (
+            <button 
+              key={link.id}
+              onClick={() => setActivePage(link.id)}
+              className={`text-sm font-medium transition-colors ${activePage === link.id ? 'text-emerald-600' : 'text-slate-600 hover:text-emerald-500'}`}
+            >
+              {link.name}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <button className="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"><Search size={20} /></button>
+          <button 
+            onClick={() => setActivePage('cart')}
+            className="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors relative"
+          >
+            <ShoppingBag size={20} />
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 w-4 h-4 bg-emerald-600 text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white">
+                {cartCount}
+              </span>
+            )}
+          </button>
+          <button 
+            className="md:hidden p-2 text-slate-600"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 p-6 flex flex-col gap-4 animate-in fade-in slide-in-from-top-4">
+          {navLinks.map(link => (
+            <button 
+              key={link.id}
+              onClick={() => { setActivePage(link.id); setMobileMenuOpen(false); }}
+              className="text-lg font-medium text-slate-700 text-left"
+            >
+              {link.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+};
+
+const Hero = ({ onShopNow }) => (
+  <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-blue-50">
+    <div className="absolute top-1/4 -right-20 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl"></div>
+    <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"></div>
+    
+    <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      <div className="z-10 text-center md:text-left">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold tracking-widest uppercase mb-6">
+          <Leaf size={14} /> 100% Halal & Pure
+        </div>
+        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-6">
+          Elevate Your <span className="text-emerald-600">Vitality</span> Every Day.
+        </h1>
+        <p className="text-lg text-slate-600 mb-10 max-w-lg mx-auto md:mx-0 leading-relaxed">
+          Phakki brings you premium dietary supplements crafted with pharmaceutical expertise. Science-backed nutrition for a healthier you.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+          <button 
+            onClick={onShopNow}
+            className="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-200 transform hover:-translate-y-1"
+          >
+            Shop Collection <ArrowRight size={20} />
+          </button>
+          <button className="px-8 py-4 bg-white text-slate-800 border border-slate-200 rounded-2xl font-bold hover:bg-slate-50 transition-all">
+            Our Science
+          </button>
+        </div>
+        <div className="mt-12 flex items-center gap-6 justify-center md:justify-start opacity-70">
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold text-slate-900">15+</span>
+            <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">Years Exp</span>
+          </div>
+          <div className="w-px h-8 bg-slate-300"></div>
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold text-slate-900">500K+</span>
+            <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">Healthy Lives</span>
+          </div>
+        </div>
+      </div>
+      <div className="relative">
+        <div className="relative z-10 w-full aspect-square bg-white rounded-3xl shadow-2xl overflow-hidden group">
+          <img 
+            src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=1200" 
+            alt="Wellness"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
+          <div className="absolute bottom-6 left-6 right-6 p-4 bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30 text-white">
+            <p className="font-semibold">Featured: Phakki Skincare Series</p>
+            <p className="text-sm opacity-80">Boost your natural radiance from within.</p>
+          </div>
+        </div>
+        <div className="absolute -top-6 -right-6 w-32 h-32 bg-yellow-400 rounded-full flex items-center justify-center text-center p-4 transform rotate-12 shadow-xl animate-bounce">
+          <span className="font-black text-sm text-yellow-950">SAVE UP TO 35% TODAY</span>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
+const ProductCard = ({ product, onAddToCart, onProductClick }) => (
+  <div className="group bg-white rounded-3xl p-4 border border-slate-100 hover:border-emerald-200 hover:shadow-2xl hover:shadow-emerald-100 transition-all duration-300">
+    <div 
+      className="relative aspect-square rounded-2xl bg-slate-50 overflow-hidden mb-4 cursor-pointer"
+      onClick={() => onProductClick(product)}
+    >
+      <img 
+        src={product.image} 
+        alt={product.name} 
+        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" 
+      />
+      <div className="absolute top-3 right-3 flex flex-col gap-2">
+        <button className="p-2 bg-white/90 backdrop-blur-sm rounded-full text-slate-400 hover:text-red-500 transition-colors shadow-sm">
+          <Heart size={18} />
+        </button>
+      </div>
+      {product.oldPrice && (
+        <div className="absolute top-3 left-3 px-2 py-1 bg-red-500 text-white text-[10px] font-bold rounded-md">
+          SALE
+        </div>
+      )}
+    </div>
+    
+    <div className="px-1">
+      <div className="flex items-center gap-1 mb-1">
+        <div className="flex text-yellow-400"><Star size={12} fill="currentColor" /></div>
+        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{product.category}</span>
+      </div>
+      <h3 className="font-bold text-slate-800 mb-1 line-clamp-1">{product.name}</h3>
+      <p className="text-xs text-slate-500 mb-4 line-clamp-2 h-8">{product.description}</p>
+      
+      <div className="flex items-center justify-between">
+        <div>
+          <span className="text-xl font-bold text-slate-900">AED {product.price}</span>
+          {product.oldPrice && <span className="text-sm text-slate-400 line-through ml-2">AED {product.oldPrice}</span>}
+        </div>
+        <button 
+          onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}
+          className="p-3 bg-slate-900 text-white rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-slate-200"
+        >
+          <ShoppingBag size={18} />
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+const ShopPage = ({ onAddToCart }) => {
+  const [filter, setFilter] = useState('All');
+  
+  const filteredProducts = useMemo(() => {
+    return filter === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+  }, [filter]);
+
+  return (
+    <div className="pt-32 pb-20 container mx-auto px-6">
+      <div className="mb-12">
+        <h2 className="text-4xl font-black text-slate-900 mb-4">The Phakki Store</h2>
+        <div className="flex flex-wrap gap-3">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat.name}
+              onClick={() => setFilter(cat.name)}
+              className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all ${filter === cat.name ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-100' : 'bg-white text-slate-600 border border-slate-200 hover:border-emerald-300'}`}
+            >
+              {cat.icon} {cat.name}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {filteredProducts.map(product => (
+          <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} onProductClick={() => {}} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const CartPage = ({ cart, onRemove }) => {
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  if (cart.length === 0) {
+    return (
+      <div className="pt-40 pb-20 container mx-auto px-6 text-center">
+        <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+          <ShoppingBag size={48} />
+        </div>
+        <h2 className="text-3xl font-black text-slate-900 mb-4">Your cart is empty</h2>
+        <p className="text-slate-500 mb-8">Start your wellness journey today.</p>
+        <button className="px-8 py-4 bg-emerald-600 text-white rounded-2xl font-bold">Start Shopping</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pt-32 pb-20 container mx-auto px-6">
+      <h2 className="text-4xl font-black text-slate-900 mb-10 text-center">Review Your Order</h2>
+      <div className="grid lg:grid-cols-3 gap-12">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+              <ShoppingBag className="text-emerald-600" /> Your Selection ({cart.length})
+            </h3>
+            <div className="space-y-6">
+              {cart.map((item, idx) => (
+                <div key={`${item.id}-${idx}`} className="flex items-center gap-6 pb-6 border-b border-slate-50 last:border-0 last:pb-0">
+                  <img src={item.image} alt={item.name} className="w-20 h-20 rounded-2xl object-cover bg-slate-50" />
+                  <div className="flex-1">
+                    <h4 className="font-bold text-slate-900">{item.name}</h4>
+                    <p className="text-xs text-slate-500">{item.category}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-slate-900">AED {item.price}</p>
+                    <button onClick={() => onRemove(idx)} className="text-xs text-red-500 font-bold hover:underline">Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-emerald-50 p-8 rounded-[2rem] border border-emerald-100">
+            <h3 className="text-xl font-bold text-emerald-900 mb-2">Buy on Amazon</h3>
+            <p className="text-emerald-700 text-sm mb-6 leading-relaxed">
+              Phakki products are available on Amazon UAE. Secure your Prime delivery now.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {cart.map((item, idx) => (
+                <a 
+                  key={`amazon-${idx}`}
+                  href={item.amazonUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-800 rounded-xl text-sm font-bold border border-emerald-200 hover:shadow-md transition-shadow"
+                >
+                  Buy {item.name} on <span className="text-orange-500">Amazon</span> <ExternalLink size={14} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="bg-slate-900 text-white p-8 rounded-[2rem] shadow-2xl sticky top-28">
+            <h3 className="text-2xl font-black mb-8">Summary</h3>
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between text-slate-400">
+                <span>Subtotal</span>
+                <span className="text-white font-bold">AED {total}</span>
+              </div>
+              <div className="flex justify-between text-slate-400">
+                <span>Shipping</span>
+                <span className="text-emerald-400 font-bold tracking-widest text-xs">FREE</span>
+              </div>
+              <div className="pt-4 border-t border-slate-800 flex justify-between">
+                <span className="text-lg font-bold">Total</span>
+                <span className="text-2xl font-black text-emerald-400">AED {total}</span>
+              </div>
+            </div>
+            
+            <button className="w-full py-5 bg-emerald-500 text-slate-900 rounded-2xl font-black text-lg hover:bg-emerald-400 transition-all transform hover:scale-[1.02] mb-4">
+              Place Phakki Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AboutPage = () => (
+  <div className="pt-32 pb-20 container mx-auto px-6">
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center mb-16">
+        <h2 className="text-5xl font-black text-slate-900 mb-6 leading-tight">Phakki: Backed <br/><span className="text-emerald-600">by Pure Science.</span></h2>
+        <p className="text-xl text-slate-600 leading-relaxed">
+          Phakki is a premium wellness brand focused on delivering high-potency vitamins and supplements across the Gulf.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-12 mb-20">
+        <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
+          <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
+            <ShieldCheck size={32} />
+          </div>
+          <h3 className="text-2xl font-bold mb-4 text-slate-900">Highest Quality</h3>
+          <p className="text-slate-500 leading-relaxed">
+            Our manufacturing processes follow strict cGMP standards to ensure every Phakki capsule meets world-class quality.
+          </p>
+        </div>
+        <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
+          <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+            <Leaf size={32} />
+          </div>
+          <h3 className="text-2xl font-bold mb-4 text-slate-900">Clean Ingredients</h3>
+          <p className="text-slate-500 leading-relaxed">
+            We source only the purest raw materials, ensuring that Phakki supplements are free from harmful additives.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// --- Main App ---
+
+export default function App() {
+  const [activePage, setActivePage] = useState('home');
+  const [cart, setCart] = useState([]);
+  const [toast, setToast] = useState(null);
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+    showToast(`${product.name} added to cart!`);
+  };
+
+  const removeFromCart = (index) => {
+    const newCart = [...cart];
+    newCart.splice(index, 1);
+    setCart(newCart);
+  };
+
+  const showToast = (msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#FDFDFF] font-sans selection:bg-emerald-100 selection:text-emerald-900">
+      <Navbar activePage={activePage} setActivePage={setActivePage} cartCount={cart.length} />
+      
+      <main className="animate-in fade-in duration-700">
+        {activePage === 'home' && (
+          <>
+            <Hero onShopNow={() => setActivePage('shop')} />
+            <section className="py-24 container mx-auto px-6">
+              <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+                <div>
+                  <h2 className="text-4xl font-black text-slate-900 mb-2">Best Sellers</h2>
+                  <p className="text-slate-500">Phakki favorites for your daily routine.</p>
+                </div>
+                <button onClick={() => setActivePage('shop')} className="text-emerald-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                  Browse All <ArrowRight size={20} />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                {PRODUCTS.map(product => (
+                  <ProductCard key={product.id} product={product} onAddToCart={addToCart} onProductClick={() => {}} />
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+
+        {activePage === 'shop' && <ShopPage onAddToCart={addToCart} />}
+        {activePage === 'cart' && <CartPage cart={cart} onRemove={removeFromCart} />}
+        {activePage === 'about' && <AboutPage />}
+        {activePage === 'science' && <AboutPage />}
+      </main>
+
+      <footer className="bg-slate-50 border-t border-slate-100 py-20 px-6 mt-20">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">P</div>
+              <span className="text-xl font-bold tracking-tight text-slate-800">Phakki</span>
+            </div>
+            <p className="text-slate-500 max-w-sm mb-8 leading-relaxed">
+              UAE's premier wellness brand. Modern nutrition for the modern life.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Shop By</h4>
+            <ul className="space-y-4 text-slate-500 text-sm">
+              <li className="hover:text-emerald-600 cursor-pointer transition-colors">Beauty</li>
+              <li className="hover:text-emerald-600 cursor-pointer transition-colors">Men</li>
+              <li className="hover:text-emerald-600 cursor-pointer transition-colors">Kids</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold text-slate-900 mb-6 uppercase text-xs tracking-widest">Help</h4>
+            <ul className="space-y-4 text-slate-500 text-sm">
+              <li className="hover:text-emerald-600 cursor-pointer transition-colors">Shipping</li>
+              <li className="hover:text-emerald-600 cursor-pointer transition-colors">Returns</li>
+              <li className="hover:text-emerald-600 cursor-pointer transition-colors">Contact</li>
+            </ul>
+          </div>
+        </div>
+        <div className="container mx-auto mt-20 pt-8 border-t border-slate-200 text-slate-400 text-xs text-center">
+          <p>© 2024 Phakki Wellness UAE. All rights reserved.</p>
+        </div>
+      </footer>
+
+      {toast && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4">
+          <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-slate-900"><ShoppingBag size={14} /></div>
+          <span className="font-bold">{toast}</span>
+        </div>
+      )}
+    </div>
+  );
+}
