@@ -45,6 +45,13 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Ultra Heavy Glass for the Create Page Background */
+        .ios-ultra-glass {
+            background: rgba(10, 5, 20, 0.75);
+            backdrop-filter: blur(60px) saturate(200%);
+            -webkit-backdrop-filter: blur(60px) saturate(200%);
+        }
+
         .font-cinzel { font-family: 'Cinzel', serif; }
         .font-playfair { font-family: 'Playfair Display', serif; }
         .font-script { font-family: 'Great Vibes', cursive; }
@@ -247,26 +254,62 @@
     </div>
 
     <!-- Create Page -->
-    <div id="create-page" class="hidden fixed inset-0 z-[110] overflow-y-auto pt-20 pb-10 px-4 transition-opacity duration-700 opacity-0">
-        <div class="max-w-xl mx-auto ios-glass p-10 rounded-3xl border border-white/20 text-center relative">
-            <button onclick="hideCreatePage()" class="absolute top-6 right-6 text-white/40 hover:text-white">
+    <div id="create-page" class="hidden fixed inset-0 z-[110] overflow-y-auto transition-opacity duration-700 opacity-0 ios-ultra-glass flex items-center justify-center">
+        <div class="w-full max-w-4xl mx-auto p-6 md:p-12 relative">
+            <!-- Close Button -->
+            <button onclick="hideCreatePage()" class="absolute -top-4 right-4 md:right-0 text-white/60 hover:text-white transition-all hover:scale-110 active:scale-95 bg-white/10 w-10 h-10 rounded-full flex items-center justify-center">
                 <i class="fas fa-times text-xl"></i>
             </button>
-            <div class="w-16 h-16 bg-amber-400/20 rounded-full flex items-center justify-center mx-auto mb-8">
-                <i class="fas fa-magic text-2xl text-amber-400"></i>
+            
+            <div class="text-center mb-12">
+                <div class="w-20 h-20 bg-amber-400/20 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-amber-400/30">
+                    <i class="fas fa-magic text-3xl text-amber-400"></i>
+                </div>
+                <h2 class="font-cinzel text-4xl md:text-5xl text-white mb-4">Choose Your Reveal</h2>
+                <p class="text-gray-300 font-light max-w-lg mx-auto text-lg">Select the perfect way to introduce your little one to the world.</p>
             </div>
-            <h2 class="font-cinzel text-3xl text-white mb-6">Create Your Journey</h2>
-            <p class="text-gray-300 leading-relaxed mb-8 font-light">
-                Give your little one a grand entrance with a <span class="text-amber-300">custom baby name reveal journey</span>. We craft a bespoke digital experience that tells the story, meaning, and heritage of your chosen name.
-            </p>
-            <div class="bg-white/5 rounded-2xl p-6 mb-8 border border-white/5">
-                <p class="text-sm uppercase tracking-widest text-amber-400 mb-2">Package Investment</p>
-                <h3 class="text-4xl font-playfair text-white mb-2">£49.99</h3>
-                <p class="text-[10px] text-gray-500 italic mt-4">*Domain registration is separate.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                <!-- Basic Package -->
+                <div class="ios-glass p-8 rounded-[35px] border border-white/10 flex flex-col hover:border-amber-500/30 transition-all group hover:scale-[1.02]">
+                    <h3 class="font-cinzel text-2xl text-white mb-2">Basic Reveal</h3>
+                    <p class="text-[10px] text-gray-400 mb-6 font-bold uppercase tracking-[0.2em]">Digital Template</p>
+                    <div class="mb-8">
+                        <span class="text-4xl font-playfair text-white font-bold">£49.95</span>
+                    </div>
+                    <ul class="text-sm text-gray-200 space-y-4 mb-10 flex-grow font-light">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Standard Layout & Sections</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Custom Name & Meaning</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Mobile Optimized Experience</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Name Audio Pronunciation</li>
+                    </ul>
+                    <button onclick="handleInquiry('Basic')" class="block w-full py-5 rounded-2xl bg-white/10 border border-white/10 text-center font-cinzel text-xs tracking-[0.2em] text-white hover:bg-white/20 transition-all active:scale-95">
+                        SELECT BASIC
+                    </button>
+                </div>
+
+                <!-- Bespoke Package -->
+                <div class="ios-glass p-8 rounded-[35px] border border-amber-500/30 bg-gradient-to-b from-amber-500/10 to-transparent flex flex-col relative overflow-hidden group hover:scale-[1.02]">
+                    <div class="absolute top-0 right-0 bg-amber-500 text-[10px] font-black text-black px-5 py-2 rounded-bl-2xl tracking-widest uppercase">Premium</div>
+                    <h3 class="font-cinzel text-2xl text-amber-200 mb-2">Bespoke Journey</h3>
+                    <p class="text-[10px] text-amber-500/80 mb-6 font-bold uppercase tracking-[0.2em]">Fully Custom Experience</p>
+                    <div class="mb-8">
+                        <span class="text-4xl font-playfair text-white font-bold">£198.99</span>
+                    </div>
+                    <ul class="text-sm text-gray-100 space-y-4 mb-10 flex-grow font-light">
+                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Everything in Basic</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Bespoke Visual Theme & Art</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Professional Voiceover Reveal</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Custom Domain Included (1 Year)</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Collaborative Design Session</li>
+                    </ul>
+                    <button onclick="handleInquiry('Bespoke')" class="block w-full py-5 rounded-2xl bg-amber-500 text-center font-cinzel text-xs tracking-[0.2em] text-black font-bold hover:bg-amber-400 transition-all shadow-xl shadow-amber-500/20 active:scale-95">
+                        GET BESPOKE
+                    </button>
+                </div>
             </div>
-            <a href="mailto:moizjanjua@icloud.com" class="ios-glass inline-block w-full py-5 rounded-full font-cinzel tracking-widest text-amber-200 hover:scale-[1.02]">
-                Contact Moiz Janjua
-            </a>
+
+            <p class="text-center text-[10px] text-gray-500 mt-12 tracking-[0.3em] uppercase font-bold">Inquiries handled by Moiz Janjua</p>
         </div>
     </div>
 
@@ -402,6 +445,23 @@
             }, { threshold: 0.1 });
 
             nodes.forEach(node => observer.observe(node));
+        }
+
+        function handleInquiry(packageType) {
+            const email = "Moizjanjua@icloud.com";
+            let subject = "";
+            let body = "";
+
+            if (packageType === 'Basic') {
+                subject = "Inquiry: Basic Name Reveal Package (£49.95)";
+                body = "Hi Moiz,\n\nI am interested in the Basic Name Reveal Package for my little one.\n\nCould you please provide more information on how we can get started?\n\nDetails:\n- Package: Basic Reveal\n- Price: £49.95\n\nKind regards,\n[Your Name]";
+            } else {
+                subject = "Inquiry: Bespoke Journey Package (£198.99)";
+                body = "Hi Moiz,\n\nI would love to collaborate on a Bespoke Journey for our baby's name reveal.\n\nI'm particularly interested in the custom visual theme and professional voiceover options.\n\nDetails:\n- Package: Bespoke Journey\n- Price: £198.99\n\nLooking forward to hearing from you!\n\nKind regards,\n[Your Name]";
+            }
+
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
         }
     </script>
 </body>
