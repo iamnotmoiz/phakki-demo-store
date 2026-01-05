@@ -14,6 +14,7 @@
             overflow-x: hidden;
             background-color: #0f0518;
             color: white;
+            width: 100%;
         }
 
         #canvas-bg {
@@ -35,7 +36,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Enhanced iOS Glassmorphism */
         .ios-glass {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(25px) saturate(180%);
@@ -45,9 +45,8 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Ultra Heavy Glass for the Create Page Background */
         .ios-ultra-glass {
-            background: rgba(10, 5, 20, 0.75);
+            background: rgba(10, 5, 20, 0.85);
             backdrop-filter: blur(60px) saturate(200%);
             -webkit-backdrop-filter: blur(60px) saturate(200%);
         }
@@ -79,7 +78,6 @@
             animation: revealText 1.2s cubic-bezier(0.2, 1, 0.3, 1) 1.2s forwards;
         }
 
-        /* Timeline Elements */
         .timeline-line {
             width: 2px;
             background: linear-gradient(to bottom, transparent, #fbbf24, #d946ef, transparent);
@@ -118,16 +116,38 @@
         }
 
         .name-container {
-            padding: 40px 120px;
+            padding: 20px;
             display: inline-block;
-            overflow: visible;
+            max-width: 100vw;
         }
 
         .create-btn {
             position: fixed;
-            top: 24px;
-            right: 24px;
+            top: 20px;
+            right: 20px;
             z-index: 100;
+        }
+
+        /* Prevent horizontal scroll on mobile headers */
+        .responsive-title {
+            font-size: clamp(80px, 20vw, 180px);
+            line-height: 0.8;
+        }
+
+        /* Responsive timeline line adjustment */
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+                transform: none;
+            }
+            .timeline-node-icon {
+                justify-content: flex-start !important;
+                padding-left: 0px;
+            }
+            .timeline-node-content {
+                text-align: left !important;
+                padding-left: 45px;
+            }
         }
     </style>
 </head>
@@ -136,78 +156,78 @@
     <canvas id="canvas-bg"></canvas>
 
     <!-- Top Right Nav -->
-    <button onclick="showCreatePage()" class="create-btn ios-glass px-6 py-2.5 rounded-full font-cinzel text-xs tracking-widest text-white/90 hover:scale-105 active:scale-95">
-        <i class="fas fa-plus mr-2 text-[10px]"></i> Create Yours
+    <button onclick="showCreatePage()" class="create-btn ios-glass px-4 md:px-6 py-2 md:py-2.5 rounded-full font-cinzel text-[10px] md:text-xs tracking-widest text-white/90 hover:scale-105 active:scale-95">
+        <i class="fas fa-plus mr-1 md:mr-2 text-[10px]"></i> Create <span class="hidden sm:inline">Yours</span>
     </button>
 
     <!-- Intro Screen -->
-    <div id="intro-screen" class="fixed inset-0 flex flex-col items-center justify-center z-50 transition-opacity duration-1000">
-        <div class="text-center p-8">
-            <h1 class="font-script text-5xl md:text-6xl mb-12 text-white/90 leading-tight intro-title-animate">Joining us in our journey...</h1>
+    <div id="intro-screen" class="fixed inset-0 flex flex-col items-center justify-center z-50 transition-opacity duration-1000 p-6">
+        <div class="text-center">
+            <h1 class="font-script text-4xl md:text-6xl mb-12 text-white/90 leading-tight intro-title-animate">Joining us in our journey...</h1>
             <div class="intro-btn-animate">
-                <button onclick="startJourney()" class="ios-glass group relative px-12 py-5 rounded-full overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95">
-                    <span class="relative font-cinzel tracking-widest text-sm uppercase text-white/90 group-hover:text-amber-200">Reveal the name</span>
+                <button onclick="startJourney()" class="ios-glass group relative px-8 md:px-12 py-4 md:py-5 rounded-full overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95">
+                    <span class="relative font-cinzel tracking-widest text-xs md:text-sm uppercase text-white/90 group-hover:text-amber-200">Reveal the name</span>
                 </button>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div id="main-content" class="hidden relative z-10 min-h-screen flex flex-col items-center pb-20 opacity-0 transition-opacity duration-1000">
+    <div id="main-content" class="hidden relative z-10 min-h-screen flex flex-col items-center pb-20 opacity-0 transition-opacity duration-1000 w-full overflow-x-hidden">
         
-        <header class="h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-            <p class="text-amber-400/80 tracking-[0.5em] text-xs uppercase mb-4 animate-float-up" style="animation-delay: 0.5s">A Beautiful Presence</p>
+        <header class="h-screen flex flex-col items-center justify-center text-center px-4 w-full">
+            <p class="text-amber-400/80 tracking-[0.3em] md:tracking-[0.5em] text-[10px] md:text-xs uppercase mb-4 animate-float-up" style="animation-delay: 0.5s">A Beautiful Presence</p>
             
             <div class="animate-reveal flex flex-col items-center w-full">
                 <div class="name-container">
-                    <h1 class="font-monte text-[110px] md:text-[180px] leading-none gold-text">Arshaan</h1>
-                    <h2 class="font-monte text-4xl md:text-7xl text-white/30 -mt-2">Janjua</h2>
+                    <h1 class="font-monte responsive-title gold-text">Arshaan</h1>
+                    <h2 class="font-monte text-3xl md:text-7xl text-white/30 -mt-1 md:-mt-2">Janjua</h2>
                 </div>
             </div>
 
-            <div class="flex items-center gap-6 mt-12 text-white/60 animate-float-up" style="animation-delay: 1.5s">
-                <span class="text-xl font-light italic">/Ar-Shaan/</span>
-                <button onclick="speakName()" class="w-10 h-10 rounded-full ios-glass flex items-center justify-center hover:text-amber-400">
+            <div class="flex items-center gap-4 md:gap-6 mt-8 md:mt-12 text-white/60 animate-float-up" style="animation-delay: 1.5s">
+                <span class="text-lg md:text-xl font-light italic">/Ar-Shaan/</span>
+                <button onclick="speakName()" class="w-10 h-10 rounded-full ios-glass flex items-center justify-center hover:text-amber-400 active:scale-90">
                     <i class="fas fa-volume-up"></i>
                 </button>
                 <span class="w-1 h-1 bg-white/50 rounded-full"></span>
-                <span class="uppercase tracking-widest text-sm">Persian</span>
+                <span class="uppercase tracking-widest text-[10px] md:text-sm">Persian</span>
             </div>
             
-            <div class="absolute bottom-10 animate-bounce text-white/30 cursor-pointer" onclick="scrollToTimeline()">
+            <div class="absolute bottom-10 animate-bounce text-white/30 cursor-pointer p-4" onclick="scrollToTimeline()">
                 <i class="fas fa-chevron-down"></i>
             </div>
         </header>
 
         <!-- Timeline -->
-        <div id="timeline-section" class="w-full max-w-5xl relative px-4 py-20">
+        <div id="timeline-section" class="w-full max-w-5xl relative px-6 md:px-4 py-20">
             <div id="timeline-line" class="timeline-line"></div>
 
             <!-- 1. Ancient Roots -->
-            <div class="timeline-node grid grid-cols-1 md:grid-cols-2 gap-12 mb-40 items-center">
-                <div class="md:text-right order-2 md:order-1">
-                    <h3 class="font-cinzel text-3xl text-amber-200 mb-2">Ancient Roots</h3>
-                    <p class="text-purple-200/80 font-light leading-relaxed">
+            <div class="timeline-node grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-32 md:mb-40 items-center">
+                <div class="timeline-node-content md:text-right order-2 md:order-1">
+                    <h3 class="font-cinzel text-2xl md:text-3xl text-amber-200 mb-2">Ancient Roots</h3>
+                    <p class="text-purple-200/80 font-light leading-relaxed text-sm md:text-base">
                         Originating from ancient Persia, the name is deeply rooted in the history of the <strong>Kayanian Dynasty</strong>. It whispers of a time of poets, warriors, and kings.
                     </p>
                 </div>
-                <div class="flex justify-center md:justify-start order-1 md:order-2">
-                    <div class="w-24 h-24 glass-panel rounded-full flex items-center justify-center border border-amber-500/30">
-                        <i class="fas fa-scroll text-3xl text-amber-400"></i>
+                <div class="timeline-node-icon flex justify-center md:justify-start order-1 md:order-2">
+                    <div class="w-16 h-16 md:w-24 md:h-24 glass-panel rounded-full flex items-center justify-center border border-amber-500/30">
+                        <i class="fas fa-scroll text-xl md:text-3xl text-amber-400"></i>
                     </div>
                 </div>
             </div>
 
             <!-- 2. The Meaning -->
-            <div class="timeline-node grid grid-cols-1 md:grid-cols-2 gap-12 mb-40 items-center">
-                <div class="flex justify-center md:justify-end order-1">
-                    <div class="w-24 h-24 glass-panel rounded-full flex items-center justify-center border border-cyan-500/30">
-                        <i class="fas fa-shield-alt text-3xl text-cyan-400"></i>
+            <div class="timeline-node grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-32 md:mb-40 items-center">
+                <div class="timeline-node-icon flex justify-center md:justify-end order-1">
+                    <div class="w-16 h-16 md:w-24 md:h-24 glass-panel rounded-full flex items-center justify-center border border-cyan-500/30">
+                        <i class="fas fa-shield-alt text-xl md:text-3xl text-cyan-400"></i>
                     </div>
                 </div>
-                <div class="text-left order-2">
-                    <h3 class="font-cinzel text-3xl text-cyan-200 mb-2">The Meaning</h3>
-                    <p class="text-purple-200/80 font-light leading-relaxed">
+                <div class="timeline-node-content text-left order-2">
+                    <h3 class="font-cinzel text-2xl md:text-3xl text-cyan-200 mb-2">The Meaning</h3>
+                    <p class="text-purple-200/80 font-light leading-relaxed text-sm md:text-base">
                         Arshaan translates to <strong>"Bravery"</strong>, <strong>"Honor"</strong>, or <strong>"Strength"</strong>. It embodies the archetype of a courageous leader who stands firmly for justice and integrity.
                     </p>
                 </div>
@@ -215,101 +235,103 @@
 
             <!-- 3. Union of Cultures -->
             <div class="timeline-node text-center mb-12">
-                <div class="w-28 h-28 mx-auto mb-8 glass-panel rounded-full flex items-center justify-center bg-gradient-to-br from-amber-500/10 to-purple-500/10 border border-white/20">
-                    <i class="fas fa-globe-asia text-4xl text-white/80"></i>
+                <div class="w-20 h-20 md:w-28 md:h-28 mx-auto mb-6 md:mb-8 glass-panel rounded-full flex items-center justify-center bg-gradient-to-br from-amber-500/10 to-purple-500/10 border border-white/20">
+                    <i class="fas fa-globe-asia text-2xl md:text-4xl text-white/80"></i>
                 </div>
-                <h3 class="font-cinzel text-4xl text-white mb-4">A Union of Cultures</h3>
-                <p class="text-gray-400 max-w-2xl mx-auto mb-12 italic">The name Arshaan is a linguistic bridge, resonating across ancient civilizations and modern hearts.</p>
+                <h3 class="font-cinzel text-3xl md:text-4xl text-white mb-4 px-4">A Union of Cultures</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-12 px-6 italic text-sm md:text-base">The name Arshaan is a linguistic bridge, resonating across ancient civilizations and modern hearts.</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-4xl mx-auto px-4">
                     <!-- Arabic Box -->
-                    <div class="info-card glass-panel p-8 rounded-3xl text-center h-[200px] flex flex-col justify-center border border-amber-500/20">
-                        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-amber-400/10 rounded-full">
+                    <div class="info-card glass-panel p-6 md:p-8 rounded-3xl text-center md:h-[220px] flex flex-col justify-center border border-amber-500/20">
+                        <div class="w-10 h-10 mx-auto mb-4 flex items-center justify-center bg-amber-400/10 rounded-full">
                             <i class="fas fa-moon text-amber-400"></i>
                         </div>
                         <h4 class="font-playfair text-lg text-amber-400 mb-2 font-bold uppercase tracking-widest">Arabic</h4>
-                        <p class="text-xs text-gray-400 leading-relaxed">
+                        <p class="text-xs md:text-sm text-gray-400 leading-relaxed">
                             Intertwined with meanings of "Dignity" and "Status," mirroring the phonetic beauty of high-ranking virtues.
                         </p>
                     </div>
 
                     <!-- Persian Box -->
-                    <div class="info-card glass-panel p-8 rounded-3xl text-center h-[200px] flex flex-col justify-center border border-purple-500/20">
-                        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center bg-purple-400/10 rounded-full">
+                    <div class="info-card glass-panel p-6 md:p-8 rounded-3xl text-center md:h-[220px] flex flex-col justify-center border border-purple-500/20">
+                        <div class="w-10 h-10 mx-auto mb-4 flex items-center justify-center bg-purple-400/10 rounded-full">
                             <i class="fas fa-feather-alt text-purple-400"></i>
                         </div>
                         <h4 class="font-playfair text-lg text-purple-400 mb-2 font-bold uppercase tracking-widest">Persian</h4>
-                        <p class="text-xs text-gray-400 leading-relaxed">
+                        <p class="text-xs md:text-sm text-gray-400 leading-relaxed">
                             The direct lineage to the "Kayanian" kings, representing the "Arsh" (The Throne) and a noble spirit.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div class="timeline-node text-center mt-32 opacity-60">
-                <i class="fas fa-quote-left text-2xl text-amber-500/30 mb-4 block"></i>
-                <p class="font-playfair text-2xl italic">"A name is the first gift we are given, and the first truth we own."</p>
+            <div class="timeline-node text-center mt-24 md:mt-32 opacity-60 px-6">
+                <i class="fas fa-quote-left text-xl text-amber-500/30 mb-4 block"></i>
+                <p class="font-playfair text-xl md:text-2xl italic">"A name is the first gift we are given, and the first truth we own."</p>
             </div>
         </div>
     </div>
 
     <!-- Create Page -->
-    <div id="create-page" class="hidden fixed inset-0 z-[110] overflow-y-auto transition-opacity duration-700 opacity-0 ios-ultra-glass flex items-center justify-center">
-        <div class="w-full max-w-4xl mx-auto p-6 md:p-12 relative">
-            <!-- Close Button -->
-            <button onclick="hideCreatePage()" class="absolute -top-4 right-4 md:right-0 text-white/60 hover:text-white transition-all hover:scale-110 active:scale-95 bg-white/10 w-10 h-10 rounded-full flex items-center justify-center">
-                <i class="fas fa-times text-xl"></i>
-            </button>
-            
-            <div class="text-center mb-12">
-                <div class="w-20 h-20 bg-amber-400/20 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-amber-400/30">
-                    <i class="fas fa-magic text-3xl text-amber-400"></i>
-                </div>
-                <h2 class="font-cinzel text-4xl md:text-5xl text-white mb-4">Choose Your Reveal</h2>
-                <p class="text-gray-300 font-light max-w-lg mx-auto text-lg">Select the perfect way to introduce your little one to the world.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-                <!-- Basic Package -->
-                <div class="ios-glass p-8 rounded-[35px] border border-white/10 flex flex-col hover:border-amber-500/30 transition-all group hover:scale-[1.02]">
-                    <h3 class="font-cinzel text-2xl text-white mb-2">Basic Reveal</h3>
-                    <p class="text-[10px] text-gray-400 mb-6 font-bold uppercase tracking-[0.2em]">Digital Template</p>
-                    <div class="mb-8">
-                        <span class="text-4xl font-playfair text-white font-bold">£49.95</span>
+    <div id="create-page" class="hidden fixed inset-0 z-[110] overflow-y-auto transition-opacity duration-700 opacity-0 ios-ultra-glass">
+        <div class="min-h-screen w-full flex items-center justify-center py-12 px-6">
+            <div class="w-full max-w-4xl relative">
+                <!-- Close Button -->
+                <button onclick="hideCreatePage()" class="absolute -top-6 right-0 text-white/60 hover:text-white transition-all hover:scale-110 active:scale-95 bg-white/10 w-10 h-10 rounded-full flex items-center justify-center z-50">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+                
+                <div class="text-center mb-10 md:mb-12">
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-amber-400/20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 ring-1 ring-amber-400/30">
+                        <i class="fas fa-magic text-2xl md:text-3xl text-amber-400"></i>
                     </div>
-                    <ul class="text-sm text-gray-200 space-y-4 mb-10 flex-grow font-light">
-                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Standard Layout & Sections</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Custom Name & Meaning</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Mobile Optimized Experience</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-amber-400"></i> Name Audio Pronunciation</li>
-                    </ul>
-                    <button onclick="handleInquiry('Basic')" class="block w-full py-5 rounded-2xl bg-white/10 border border-white/10 text-center font-cinzel text-xs tracking-[0.2em] text-white hover:bg-white/20 transition-all active:scale-95">
-                        SELECT BASIC
-                    </button>
+                    <h2 class="font-cinzel text-3xl md:text-5xl text-white mb-3">Choose Your Reveal</h2>
+                    <p class="text-gray-300 font-light max-w-lg mx-auto text-sm md:text-lg">Select the perfect way to introduce your little one to the world.</p>
                 </div>
 
-                <!-- Bespoke Package -->
-                <div class="ios-glass p-8 rounded-[35px] border border-amber-500/30 bg-gradient-to-b from-amber-500/10 to-transparent flex flex-col relative overflow-hidden group hover:scale-[1.02]">
-                    <div class="absolute top-0 right-0 bg-amber-500 text-[10px] font-black text-black px-5 py-2 rounded-bl-2xl tracking-widest uppercase">Premium</div>
-                    <h3 class="font-cinzel text-2xl text-amber-200 mb-2">Bespoke Journey</h3>
-                    <p class="text-[10px] text-amber-500/80 mb-6 font-bold uppercase tracking-[0.2em]">Fully Custom Experience</p>
-                    <div class="mb-8">
-                        <span class="text-4xl font-playfair text-white font-bold">£198.95</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+                    <!-- Basic Package -->
+                    <div class="ios-glass p-6 md:p-8 rounded-[30px] md:rounded-[35px] border border-white/10 flex flex-col hover:border-amber-500/30 transition-all group">
+                        <h3 class="font-cinzel text-xl md:text-2xl text-white mb-1">Basic Reveal</h3>
+                        <p class="text-[9px] md:text-[10px] text-gray-400 mb-4 md:mb-6 font-bold uppercase tracking-[0.2em]">Digital Template</p>
+                        <div class="mb-6 md:mb-8">
+                            <span class="text-3xl md:text-4xl font-playfair text-white font-bold">£49.95</span>
+                        </div>
+                        <ul class="text-xs md:text-sm text-gray-200 space-y-3 md:space-y-4 mb-8 md:mb-10 flex-grow font-light">
+                            <li class="flex items-start gap-3"><i class="fas fa-check-circle text-amber-400 mt-0.5"></i> <span>Standard Layout & Sections</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-check-circle text-amber-400 mt-0.5"></i> <span>Custom Name & Meaning</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-check-circle text-amber-400 mt-0.5"></i> <span>Mobile Optimized Experience</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-check-circle text-amber-400 mt-0.5"></i> <span>Name Audio Pronunciation</span></li>
+                        </ul>
+                        <button onclick="handleInquiry('Basic')" class="block w-full py-4 md:py-5 rounded-2xl bg-white/10 border border-white/10 text-center font-cinzel text-[10px] md:text-xs tracking-[0.2em] text-white hover:bg-white/20 transition-all active:scale-95">
+                            SELECT BASIC
+                        </button>
                     </div>
-                    <ul class="text-sm text-gray-100 space-y-4 mb-10 flex-grow font-light">
-                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Everything in Basic</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Bespoke Visual Theme & Art</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Professional Voiceover Reveal</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Custom Domain Included (1 Year)</li>
-                        <li class="flex items-center gap-3"><i class="fas fa-star text-amber-400"></i> Collaborative Design Session</li>
-                    </ul>
-                    <button onclick="handleInquiry('Bespoke')" class="block w-full py-5 rounded-2xl bg-amber-500 text-center font-cinzel text-xs tracking-[0.2em] text-black font-bold hover:bg-amber-400 transition-all shadow-xl shadow-amber-500/20 active:scale-95">
-                        GET BESPOKE
-                    </button>
-                </div>
-            </div>
 
-            <p class="text-center text-[10px] text-gray-500 mt-12 tracking-[0.3em] uppercase font-bold">Inquiries handled by Moiz Janjua</p>
+                    <!-- Bespoke Package -->
+                    <div class="ios-glass p-6 md:p-8 rounded-[30px] md:rounded-[35px] border border-amber-500/30 bg-gradient-to-b from-amber-500/10 to-transparent flex flex-col relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-[8px] md:text-[10px] font-black text-black px-4 md:px-5 py-2 rounded-bl-2xl tracking-widest uppercase">Premium</div>
+                        <h3 class="font-cinzel text-xl md:text-2xl text-amber-200 mb-1">Bespoke Journey</h3>
+                        <p class="text-[9px] md:text-[10px] text-amber-500/80 mb-4 md:mb-6 font-bold uppercase tracking-[0.2em]">Fully Custom Experience</p>
+                        <div class="mb-6 md:mb-8">
+                            <span class="text-3xl md:text-4xl font-playfair text-white font-bold">£198.95</span>
+                        </div>
+                        <ul class="text-xs md:text-sm text-gray-100 space-y-3 md:space-y-4 mb-8 md:mb-10 flex-grow font-light">
+                            <li class="flex items-start gap-3"><i class="fas fa-star text-amber-400 mt-0.5"></i> <span>Everything in Basic</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-star text-amber-400 mt-0.5"></i> <span>Bespoke Visual Theme & Art</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-star text-amber-400 mt-0.5"></i> <span>Professional Voiceover Reveal</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-star text-amber-400 mt-0.5"></i> <span>Custom Domain Included</span></li>
+                            <li class="flex items-start gap-3"><i class="fas fa-star text-amber-400 mt-0.5"></i> <span>Collaborative Design Session</span></li>
+                        </ul>
+                        <button onclick="handleInquiry('Bespoke')" class="block w-full py-4 md:py-5 rounded-2xl bg-amber-500 text-center font-cinzel text-[10px] md:text-xs tracking-[0.2em] text-black font-bold hover:bg-amber-400 transition-all shadow-xl shadow-amber-500/20 active:scale-95">
+                            GET BESPOKE
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-center text-[9px] md:text-[10px] text-gray-500 mt-10 md:mt-12 tracking-[0.2em] md:tracking-[0.3em] uppercase font-bold px-4">Inquiries handled by Moiz Janjua</p>
+            </div>
         </div>
     </div>
 
@@ -380,8 +402,10 @@
 
         function initBackground() {
             stars = []; petals = [];
-            for (let i = 0; i < 150; i++) stars.push(new Star());
-            for (let i = 0; i < 40; i++) petals.push(new Petal());
+            const starCount = width < 768 ? 80 : 150;
+            const petalCount = width < 768 ? 25 : 40;
+            for (let i = 0; i < starCount; i++) stars.push(new Star());
+            for (let i = 0; i < petalCount; i++) petals.push(new Petal());
         }
 
         function animate() {
@@ -411,12 +435,14 @@
             const page = document.getElementById('create-page');
             page.classList.remove('hidden');
             setTimeout(() => page.style.opacity = '1', 50);
+            document.body.style.overflow = 'hidden'; // Lock scroll
         }
 
         function hideCreatePage() {
             const page = document.getElementById('create-page');
             page.style.opacity = '0';
             setTimeout(() => page.classList.add('hidden'), 700);
+            document.body.style.overflow = 'auto'; // Unlock scroll
         }
 
         function speakName() {
@@ -437,7 +463,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        if(entry.target.contains(document.querySelector('.w-24'))) {
+                        if(entry.target.contains(document.querySelector('.timeline-node-icon'))) {
                              line.classList.add('active');
                         }
                     }
@@ -457,11 +483,11 @@
                 body = "Hi Moiz,\n\nI am interested in the Basic Name Reveal Package for my little one.\n\nCould you please provide more information on how we can get started?\n\nDetails:\n- Package: Basic Reveal\n- Price: £49.95\n\nKind regards,\n[Your Name]";
             } else {
                 subject = "Inquiry: Bespoke Journey Package (£198.95)";
-                body = "Hi Moiz,\n\nI would love to collaborate on a Bespoke Journey for our baby's name reveal.\n\nI'm particularly interested in the custom visual theme and professional voiceover options.\n\nDetails:\n- Package: Bespoke Journey\n- Price: £198.99\n\nLooking forward to hearing from you!\n\nKind regards,\n[Your Name]";
+                body = "Hi Moiz,\n\nI would love to collaborate on a Bespoke Journey for our baby's name reveal.\n\nI'm particularly interested in the custom visual theme and professional voiceover options.\n\nDetails:\n- Package: Bespoke Journey\n- Price: £198.95\n\nLooking forward to hearing from you!\n\nKind regards,\n[Your Name]";
             }
 
             const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailtoLink;
+            window.open(mailtoLink, '_self');
         }
     </script>
 </body>
